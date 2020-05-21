@@ -1,7 +1,7 @@
 #include <torch/extension.h>
 #include <iostream>
 #include <vector>
-std::vector<at::Tensor> lltm_forward(
+std::vector<at::Tensor> ncnn_forward(
     torch::Tensor input,
     torch::Tensor weights,
     torch::Tensor bias,
@@ -17,10 +17,10 @@ std::vector<at::Tensor> lltm_forward(
       
   auto X = torch::unfold(x,kernel_size,dilation=dilation,padding=padding,stride=stride).transpose(1,2);
   
-  auto X_mean = torch::mean(X,/*dim=*/-1,keepdim=True);
+  auto X_mean = torch::mean(X,/*dim=*/-1,/*keepdim=*/true);
       
-  auto X_shift = X- X_mean;
-  auto X_std = torch::std(X_shift,/*dim=*/-1,keepdim=True).expand_as(X);
+  auto X_shift = X - X_mean;
+  auto X_std = torch::std(X_shift,/*dim=*/-1,/*keepdim=*/true).expand_as(X);
   auto X_refined = X_shift / (X_std+1e-5);
   
   auto flatten = weights.view(weights.size(0),-1).transpose();
@@ -39,16 +39,19 @@ std::vector<at::Tensor> lltm_forward(
 }
 
 
-std::vector<torch::Tensor> lltm_backward(
-    torch::Tensor grad_h,
-    torch::Tensor grad_cell,
-    torch::Tensor new_cell,
-    torch::Tensor input_gate,
-    torch::Tensor output_gate,
-    torch::Tensor candidate_cell,
+std::vector<torch::Tensor> ncnn_backward(
+    torch::Tensor grad_output,
+    torch::Tensor grad_weights,
+    torch::Tensor grad_bias,
+    torch::Tensor kernel_size,
+    torch::Tensor stride,
+    torch::Tensor padding,
     torch::Tensor X,
     torch::Tensor gate_weights,
     torch::Tensor weights) {
+    
+    
+    
   auto d_output_gate = torch::tanh(new_cell) * grad_h;
   auto d_tanh_new_cell = output_gate * grad_h;
   auto d_new_cell = d_tanh(new_cell) * d_tanh_new_cell + grad_cell;
