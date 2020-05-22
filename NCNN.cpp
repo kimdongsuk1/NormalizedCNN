@@ -68,7 +68,7 @@ std::vector<torch::Tensor> ncnn_backward(
 
   auto grad_weights = X_scaled.t().mm(grad_output);
     
-  return {grad_weights, grad_bias, grad_scale, grad_x, };
+  return {grad_weights, grad_bias, grad_scale, grad_x};
 }
 
 
