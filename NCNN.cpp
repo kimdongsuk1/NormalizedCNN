@@ -71,4 +71,8 @@ std::vector<torch::Tensor> ncnn_backward(
   return {grad_weights, grad_bias, grad_scale, grad_x};
 }
 
+PYBIND11_MODULE(TORCH_EXTENSION_NAME, m) {
+  m.def("forward", &ncnn_forward, "NCNN forward");
+  m.def("backward", &ncnn_backward, "NCNN backward");
+}
 
