@@ -1,15 +1,3 @@
 # NormalizedCNN
 
- We propose Normalized Convolutional Neural Network(NCNN). NCNN is more fitted
-to a convolutional operator than other nomralizaiton methods. The normalized process is similar
-to a normalization methods, but NCNN is more adapative to sliced-inputs and corresponding the
-convolutional kernel. Therefor NCNN can be targeted to micro-batch training. Normalizaing of NC is
-conducted during convolutional process. In short, NC process is not usual normalization and can not
-be realized in deep learning framework optimizing standard convolution process. Hence we named
-this method ’Normalized Convolution’. As a result, NC process has universal property which means
-NC can be applied to any AI tasks involving convolution neural layer . Since NC don’t need other
-normalization layer, NCNN looks like convolutional version of Self Normalizing Network.(SNN).
-Among micro-batch trainings, NCNN outperforms other batch-independent normalization methods.
-NCNN archives these superiority by standardizing rows of im2col matrix of inputs, which theoretically
-smooths the gradient of loss. The code need to manipulate standard convolution neural networks step
-by step. The code is available : https://github.com/kimdongsuk1/ NormalizedCNN
+We introduce a Normalized Convolutional Neural Layer, a novel approach to normalization in convolutional networks. Unlike conventional methods, this layer normalizes the columns of the im2col matrix during convolution, making it inherently adaptive to sliced inputs and better aligned with kernel structures. This distinctive approach differentiates it from standard normalization techniques and prevents direct integration into existing deep learning frameworks optimized for traditional convolution operations. Our method has a universal property, making it applicable to any deep learning task involving convolutional layers. By inherently normalizing within the convolution process, it serves as a convolutional adaptation of Self-Normalizing Networks, maintaining their core principles without requiring additional normalization layers. Notably, in micro-batch training scenarios, it consistently outperforms other batch-independent normalization methods. This performance boost arises from standardizing the rows of the im2col matrix, which theoretically leads to a smoother loss gradient and improved training stability.
